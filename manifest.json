@@ -1,8 +1,8 @@
 {
-    "name": "Youtube Mouse Controls",
-    "version": "0.1.2",
+    "name": "YouTube Mouse Controls",
+    "version": "0.1.3",
     "manifest_version": 2,
-    "description": "Change Youtube videos volume and seek with your mouse",
+    "description": "Change YouTube videos volume and seek with your mouse",
     "icons": {
         "16": "images/icon-16.png",
         "128": "images/icon-128.png"
@@ -19,7 +19,7 @@
             "19": "images/icon-19.png",
             "38": "images/icon-38.png"
         },
-        "default_title": "test",
+        "default_title": "Youtube Mouse Controls",
         "default_popup": "popup.html"
     },
     "web_accessible_resources": [
