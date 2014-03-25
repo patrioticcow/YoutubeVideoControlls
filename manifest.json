@@ -1,0 +1,54 @@
+{
+    "name": "Youtube Mouse Controls",
+    "version": "0.1.2",
+    "manifest_version": 2,
+    "description": "Change Youtube videos volume and seek with your mouse",
+    "icons": {
+        "16": "images/icon-16.png",
+        "128": "images/icon-128.png"
+    },
+    "default_locale": "en",
+    "background": {
+        "scripts": [
+            "scripts/chromereload.js",
+            "scripts/background.js"
+        ]
+    },
+    "page_action": {
+        "default_icon": {
+            "19": "images/icon-19.png",
+            "38": "images/icon-38.png"
+        },
+        "default_title": "test",
+        "default_popup": "popup.html"
+    },
+    "web_accessible_resources": [
+        "scripts/injected.js"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "css": [
+                "styles/main.css"
+            ],
+            "js": [
+                "scripts/jquery.js",
+                "scripts/jquery.mousewheel.js",
+                "scripts/injected.js",
+                "scripts/contentscript.js"
+            ],
+
+            "all_frames": false
+        }
+    ],
+    "permissions": [
+        "tabs",
+        "history",
+        "management",
+        "http://*/*",
+        "https://*/*"
+    ]
+}
