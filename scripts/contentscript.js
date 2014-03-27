@@ -6,17 +6,19 @@ function injectJs(link) {
 
 function init(event) {
     var playerId = document.getElementById("movie_player");
+    var $playerApi = $('#player-api');
     var $playerId = $(playerId);
     var volume = event.data.volume;
     var seek = event.data.currentTime;
     var seekState = 0;
+    var pid = $playerApi.length ? $playerApi : $playerId;
 
     volume = parseFloat(volume);
     seek = parseFloat(seek);
 
     if (playerId) {
 
-        $playerId.on('mousewheel', function (e) {
+        pid.on('mousewheel', function (e) {
 
             if (seekState === 1) {
 
@@ -62,8 +64,8 @@ function init(event) {
 }
 
 $(function () {
-    var playerId = document.getElementById("movie_player");
-    if (playerId) {
+    var playerIdd = document.getElementById("movie_player");
+    if (playerIdd) {
         injectJs(chrome.extension.getURL('scripts/injected.js'));
     }
 });
