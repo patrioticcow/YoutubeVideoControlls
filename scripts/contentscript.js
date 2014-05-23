@@ -24,8 +24,10 @@ function init() {
     var $playerId = $(playerId);
     var pid = $playerApi.length ? $playerApi : $playerId;
 
-    if (playerId) {
+    seekScale = isNaN(seekScale) ? 5 : seekScale;
+    volumeScale = isNaN(volumeScale) ? 5 : volumeScale;
 
+    if (playerId) {
         pid.on('mousewheel', function (e) {
             if (seekState === 1) {
 
@@ -93,11 +95,11 @@ chrome.storage.local.get('ymc_seek', function (result) {
 });
 
 chrome.storage.local.get('ymc_jump_volume', function (result) {
-    seekScale = result.ymc_jump_volume;
+    seekScale = parseFloat(result.ymc_jump_volume);
 });
 
 chrome.storage.local.get('ymc_jump_seek', function (result) {
-    volumeScale = result.ymc_jump_seek;
+    volumeScale = parseFloat(result.ymc_jump_seek);
 });
 
 /**
