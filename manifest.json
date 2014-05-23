@@ -1,6 +1,6 @@
 {
     "name": "YouTube Mouse Controls",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "manifest_version": 2,
     "description": "Change YouTube videos volume and seek with your mouse",
     "icons": {

@@ -1,20 +1,26 @@
 'use strict';
 
+/**
+ * init some vars
+ */
+var seek;
+var volume;
+
 function injectJs(link) {
     $('<script type="text/javascript" src="' + link + '"/>').appendTo($('head'));
 }
 
-function init(event) {
+function setVars(event) {
+    if (event.data.volume !== 'not_needed') volume = parseFloat(event.data.volume);
+    seek = parseFloat(event.data.currentTime);
+}
+
+function init() {
     var playerId = document.getElementById("movie_player");
     var $playerApi = $('#player-api');
     var $playerId = $(playerId);
-    var volume = event.data.volume;
-    var seek = event.data.currentTime;
     var seekState = 0;
     var pid = $playerApi.length ? $playerApi : $playerId;
-
-    volume = parseFloat(volume);
-    seek = parseFloat(seek);
 
     if (playerId) {
 
@@ -28,7 +34,7 @@ function init(event) {
                     seek = seek - 5;
                 }
 
-                window.postMessage({ type: "FROM_CONTENTSCRIPT", key: 'seek', value: seek }, "*");
+                window.postMessage({type: "FROM_CONTENTSCRIPT_SEEK", key: 'seek', value: seek}, "*");
             } else {
 
                 if (e.deltaY === 1) {
@@ -37,7 +43,7 @@ function init(event) {
                     volume = volume <= 0 ? 0 : volume - 5;
                 }
 
-                window.postMessage({ type: "FROM_CONTENTSCRIPT", key: 'volume', value: volume }, "*");
+                window.postMessage({type: "FROM_CONTENTSCRIPT_VOLUME", key: 'volume', value: volume}, "*");
             }
 
             e.preventDefault();
@@ -63,6 +69,9 @@ function init(event) {
     });
 }
 
+/**
+ * inject the script
+ */
 $(function () {
     var playerIdd = document.getElementById("movie_player");
     if (playerIdd) {
@@ -70,15 +79,19 @@ $(function () {
     }
 });
 
+/**
+ * listen for events form the injected script
+ */
 window.addEventListener("message", function (event) {
     if (event.source != window)
         return;
 
     if (event.data.type && (event.data.type == "FROM_PAGE")) {
-        init(event);
+        setVars(event);
+        init();
     }
 
-    if (event.data.type && (event.data.type == "FROM_CONTENTSCRIPT")) {
-        //console.log(event);
+    if (event.data.type && (event.data.type == "SEEK_FROM_PAGE")) {
+        setVars(event);
     }
 }, false);
