@@ -37,8 +37,10 @@ window.addEventListener("message", function (event) {
  */
 window.setInterval(function () {
     var playerId = document.getElementById("movie_player");
-    if (playerId.hasOwnProperty('getCurrentTime')) {
-        window.postMessage({type: 'SEEK_FROM_PAGE', volume: 'not_needed', currentTime: playerId.getCurrentTime()}, "*");
+    if (playerId) {
+        if (playerId.hasOwnProperty('getCurrentTime')) {
+            window.postMessage({type: 'SEEK_FROM_PAGE', volume: 'not_needed', currentTime: playerId.getCurrentTime()}, "*");
+        }
     }
 }, 1000);
 
