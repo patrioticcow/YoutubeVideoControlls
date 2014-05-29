@@ -1,8 +1,8 @@
 {
-    "name": "YouTube Mouse Controls",
-    "version": "0.9.2",
+    "name": "YouTube(TM) Mouse Controls",
+    "version": "0.9.3",
     "manifest_version": 2,
-    "description": "Change YouTube videos volume and seek with your mouse",
+    "description": "Change YouTube(TM) videos volume and seek with your mouse. YouTubes a trademark of Google Inc. Use of this trademark is subject to Google Permissions.",
     "icons": {
         "16": "images/icon-16.png",
         "128": "images/icon-128.png"
@@ -19,7 +19,7 @@
             "19": "images/icon-19.png",
             "38": "images/icon-38.png"
         },
-        "default_title": "Youtube Mouse Controls",
+        "default_title": "YouTube(TM) Mouse Controls",
         "default_popup": "popup.html"
     },
     "web_accessible_resources": [

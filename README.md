@@ -1,7 +1,7 @@
-YoutubeVideoControlls
-=====================
+YouTube(TM) Video Controlls
+==============================
 
-Youtube Video Controlls Chrome App
+YouTube(TM) Video Controlls Chrome App
 
 https://chrome.google.com/webstore/detail/youtube-mouse-controls/odhhfodnkaidhocaaaokdofhkoiahpbn
 
