@@ -5,8 +5,8 @@
  */
 var seek;
 var volume;
-var seekScale = 5;
-var volumeScale = 5;
+var seekScale;
+var volumeScale;
 var seekState = 0;
 
 function injectJs(link) {
@@ -30,7 +30,6 @@ function init() {
     if (playerId) {
         pid.on('mousewheel', function (e) {
             if (seekState === 1) {
-
                 if (e.deltaY === 1) {
                     seek = seek + seekScale;
                 } else {
@@ -39,7 +38,6 @@ function init() {
 
                 window.postMessage({type: "FROM_CONTENTSCRIPT_SEEK", key: 'seek', value: seek}, "*");
             } else {
-
                 if (e.deltaY === 1) {
                     volume = volume >= 100 ? 100 : volume + volumeScale;
                 } else {
@@ -83,23 +81,19 @@ $(function () {
 });
 
 chrome.storage.local.get('ymc_volume', function (result) {
-    if (result.ymc_volume === true) {
-        seekState = 0;
-    }
+    if (result.ymc_volume === true) seekState = 0;
 });
 
 chrome.storage.local.get('ymc_seek', function (result) {
-    if (result.ymc_seek === true) {
-        seekState = 1;
-    }
+    if (result.ymc_seek === true)  seekState = 1;
 });
 
 chrome.storage.local.get('ymc_jump_volume', function (result) {
-    seekScale = parseFloat(result.ymc_jump_volume);
+	volumeScale = parseFloat(result.ymc_jump_volume);
 });
 
 chrome.storage.local.get('ymc_jump_seek', function (result) {
-    volumeScale = parseFloat(result.ymc_jump_seek);
+	seekScale = parseFloat(result.ymc_jump_seek);
 });
 
 /**

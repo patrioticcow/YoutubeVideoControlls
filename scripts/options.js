@@ -1,22 +1,15 @@
 "use strict";
 
 function defaultSettings() {
-    if (this.id === 'volume_default') {
-        setDefaultSettings(true, false);
-    }
-    if (this.id === 'seek_default') {
-        setDefaultSettings(false, true);
-    }
+    if (this.id === 'volume_default') setDefaultSettings(true, false);
+    if (this.id === 'seek_default') setDefaultSettings(false, true);
 }
 
 function jumpSettings() {
     var val = this.options.selectedIndex;
-    if (this.id === 'volume_jump') {
-        chrome.storage.local.set({ymc_jump_volume: val}, null);
-    }
-    if (this.id === 'seek_jump') {
-        chrome.storage.local.set({ymc_jump_seek: val}, null);
-    }
+
+    if (this.id === 'volume_jump') chrome.storage.local.set({ymc_jump_volume: val}, null);
+    if (this.id === 'seek_jump') chrome.storage.local.set({ymc_jump_seek: val}, null);
 }
 
 function setDefaultSettings(volume, seek) {
