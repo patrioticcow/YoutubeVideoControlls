@@ -18,14 +18,21 @@
 				<form class="form" role="form">
 					<div class="checkbox">
 						<label>
+							<input type="checkbox" name="default_settings" id="volume_only"> Use Volume Controls only (this will overwrite the Volume and Seek Controls settings below)
+						</label>
+					</div>
+					<hr/>
+					<div class="radio">
+						<label>
 							<input type="radio" name="default_settings" id="volume_default"> Use Volume Controls by default
 						</label>
 					</div>
-					<div class="checkbox">
+					<div class="radio">
 						<label>
 							<input type="radio" name="default_settings" id="seek_default"> Use Seek Controls by default
 						</label>
 					</div>
+					<hr/>
 					<div class="row">
 						<div class="form-group col-lg-4 col-md-4">
 							<label for="volume_jump">Volume sensitivity</label>
@@ -46,8 +53,8 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-lg-4 col-md-4">
-							<label for="seek_jump">Seek sensitivity</label>
-							<select class="form-control" name="seek_jump" id="seek_jump">
+							<label for="jump_seek">Seek sensitivity</label>
+							<select class="form-control" name="jump_seek" id="jump_seek">
 								<option selected disabled>Select</option>
 								<option value="1">1 sec</option>
 								<option value="2">2 sec</option>
@@ -64,7 +71,7 @@
 					</div>
 				</form>
 				<div class="alert">
-					<p>* The sessings will save automatically</p>
+					<p>* The settings will save automatically</p>
 					<p>* YouTube&trade; a trademark of Google Inc. Use of this trademark is subject to Google Permissions.</p>
 				</div>
 			</div>
