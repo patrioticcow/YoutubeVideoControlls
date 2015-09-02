@@ -8,7 +8,7 @@ var volume;
 var volumeOnly = 0;
 var seekScale;
 var volumeScale;
-var seekState = 0;
+var seekState  = 0;
 
 function injectJs(link) {
 	$('<script type="text/javascript" src="' + link + '"/>').appendTo($('head'));
@@ -31,7 +31,7 @@ function init() {
 	if (playerId) {
 		pid.on('mousewheel', function (e) {
 			// if volume only option don't enable seek
-			if(volumeOnly === 1) seekState = 0;
+			if (volumeOnly === 1) seekState = 0;
 
 			if (seekState === 1) {
 				if (e.deltaY === 1) {
@@ -78,15 +78,17 @@ function init() {
 /**
  * inject the script
  */
-$(function () {
+var interval = setInterval(injectScript, 1000);
+function injectScript() {
 	var playerIdd = document.getElementById("movie_player");
 	if (playerIdd) {
 		injectJs(chrome.extension.getURL('scripts/injected.js'));
+		clearInterval(interval);
 	}
-});
+}
 
 chrome.storage.local.get('ymc_volume_only', function (result) {
-	if(result.ymc_volume_only === true) volumeOnly = 1;
+	if (result.ymc_volume_only === true) volumeOnly = 1;
 });
 
 chrome.storage.local.get('ymc_volume', function (result) {
@@ -109,15 +111,12 @@ chrome.storage.local.get('ymc_jump_seek', function (result) {
  * listen for events form the injected script
  */
 window.addEventListener("message", function (event) {
-	if (event.source != window)
-		return;
+	if (event.source != window) return;
 
 	if (event.data.type && (event.data.type == "FROM_PAGE")) {
 		setVars(event);
 		init();
 	}
 
-	if (event.data.type && (event.data.type == "SEEK_FROM_PAGE")) {
-		setVars(event);
-	}
+	if (event.data.type && (event.data.type == "SEEK_FROM_PAGE")) setVars(event);
 }, false);
