@@ -39,12 +39,6 @@ window.setInterval(function () {
 		if (playerId.hasOwnProperty('getCurrentTime')) {
 			window.postMessage({type: 'SEEK_FROM_PAGE', volume: 'not_needed', currentTime: playerId.getCurrentTime()}, "*");
 		}
-		if (playerId.hasOwnProperty('getVolume')) {
-			var volume      = playerId.getVolume();
-			var currentTime = playerId.getCurrentTime();
-
-			window.postMessage({type: "FROM_PAGE", volume: volume, currentTime: currentTime}, "*");
-		}
 	}
 }, 1000);
 
@@ -52,28 +46,28 @@ window.setInterval(function () {
  * get the initial volume and seek and send it to the content script
  * @param typeName
  */
-/*
- function main(typeName) {
- var playerId = document.getElementById("movie_player");
- if (playerId) {
- if (playerId.hasOwnProperty('getVolume')) {
- var volume      = playerId.getVolume();
- var currentTime = playerId.getCurrentTime();
+function main(typeName) {
+	console.log(typeName);
+	var playerId = document.getElementById("movie_player");
+	if (playerId) {
+		if (playerId.hasOwnProperty('getVolume')) {
+			var volume      = playerId.getVolume();
+			var currentTime = playerId.getCurrentTime();
 
- window.postMessage({type: "FROM_PAGE", volume: volume, currentTime: currentTime}, "*");
- }
- }
- }
+			window.postMessage({type: typeName, volume: volume, currentTime: currentTime}, "*");
+		}
+	}
+}
 
- main("FROM_PAGE");
+main("FROM_PAGE");
 
- localStorage['youtube_url'] = window.location.href;
-
- setInterval(startInit, 1000);
- function startInit() {
- if (localStorage['youtube_url'] !== window.location.href) {
- localStorage['youtube_url'] = window.location.href;
- main("FROM_PAGE");
- }
- }
- */
+// sometimes the url changes but does not reload the page
+// and i have to resend the player stats
+localStorage['youtube_url'] = window.location.href;
+setInterval(startInit, 1000);
+function startInit() {
+	if (localStorage['youtube_url'] !== window.location.href) {
+		localStorage['youtube_url'] = window.location.href;
+		main("FROM_PAGE");
+	}
+}
