@@ -119,4 +119,10 @@ window.addEventListener("message", function (event) {
 	}
 
 	if (event.data.type && (event.data.type == "SEEK_FROM_PAGE")) setVars(event);
+
+	if (event.data.type && (event.data.type == "GET_URL")) {
+		chrome.runtime.sendMessage({type: "GET_URL"}, function (response) {
+			window.postMessage({type: "FROM_CONTENTSCRIPT_URL", url: response.url}, "*");
+		});
+	}
 }, false);

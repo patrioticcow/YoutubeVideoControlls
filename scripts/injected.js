@@ -3,6 +3,7 @@
  * listen to events from contentscript
  * set the volume and seek
  */
+var tabUrl = null;
 window.addEventListener("message", function (event) {
 	if (event.source != window) return;
 
@@ -26,6 +27,10 @@ window.addEventListener("message", function (event) {
 			}
 		}
 	}
+
+	if (event.data.type && (event.data.type == "FROM_CONTENTSCRIPT_URL")) {
+		tabUrl = event.data.url.toString();
+	}
 }, false);
 
 /**
@@ -47,7 +52,6 @@ window.setInterval(function () {
  * @param typeName
  */
 function main(typeName) {
-	console.log(typeName);
 	var playerId = document.getElementById("movie_player");
 	if (playerId) {
 		if (playerId.hasOwnProperty('getVolume')) {
@@ -63,11 +67,12 @@ main("FROM_PAGE");
 
 // sometimes the url changes but does not reload the page
 // and i have to resend the player stats
-localStorage['youtube_url'] = window.location.href;
-setInterval(startInit, 1000);
+setInterval(startInit, 5000);
+
 function startInit() {
-	if (localStorage['youtube_url'] !== window.location.href) {
-		localStorage['youtube_url'] = window.location.href;
+	if (tabUrl !== window.location.href) {
+		window.postMessage({type: 'GET_URL'}, "*");
+
 		main("FROM_PAGE");
 	}
 }
