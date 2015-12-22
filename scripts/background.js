@@ -1,5 +1,7 @@
 "use strict";
 
+console.log('background');
+
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (message.type == 'GET_URL') {
 		getTabUrl();

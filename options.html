@@ -1,82 +1,246 @@
 <!doctype html>
 <html>
 <head>
-	<title>YouTube&trade; Mouse Controlls - settings page</title>
-	<link href="styles/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <title>YouTube&trade; Mouse Controls - settings page</title>
+    <link href="styles/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-	<div class="row">
-		<br/>
+    <div class="row">
+        <br/>
 
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">YouTube&trade; Mouse Controlls - settings</h3>
-			</div>
-			<div class="panel-body">
-				<div class="alert alert-info"><b>Heads Up!</b> Refresh the YouTube&trade; page upon changing this settings</div>
-				<form class="form" role="form">
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" name="default_settings" id="volume_only"> Use Volume Controls only (this will overwrite the Volume and Seek Controls settings below)
-						</label>
-					</div>
-					<hr/>
-					<div class="radio">
-						<label>
-							<input type="radio" name="default_settings" id="volume_default"> Use Volume Controls by default
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" name="default_settings" id="seek_default"> Use Seek Controls by default
-						</label>
-					</div>
-					<hr/>
-					<div class="row">
-						<div class="form-group col-lg-4 col-md-4">
-							<label for="volume_jump">Volume sensitivity</label>
-							<select class="form-control" name="volume_jump" id="volume_jump">
-								<option selected disabled>Select</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-								<option value="7">7</option>
-								<option value="8">8</option>
-								<option value="9">9</option>
-								<option value="10">10</option>
-							</select>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-lg-4 col-md-4">
-							<label for="jump_seek">Seek sensitivity</label>
-							<select class="form-control" name="jump_seek" id="jump_seek">
-								<option selected disabled>Select</option>
-								<option value="1">1 sec</option>
-								<option value="2">2 sec</option>
-								<option value="3">3 sec</option>
-								<option value="4">4 sec</option>
-								<option value="5">5 sec</option>
-								<option value="6">6 sec</option>
-								<option value="7">7 sec</option>
-								<option value="8">8 sec</option>
-								<option value="9">9 sec</option>
-								<option value="10">10 sec</option>
-							</select>
-						</div>
-					</div>
-				</form>
-				<div class="alert">
-					<p>* The settings will save automatically</p>
-					<p>* YouTube&trade; a trademark of Google Inc. Use of this trademark is subject to Google Permissions.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">YouTube&trade; Mouse Controls Settings</h3>
+            </div>
+            <div class="panel-body">
+                <div class="alert alert-info"><b>Heads Up!</b> The settings will save automatically. Refresh the YouTube&trade; page upon changing this settings</div>
+                <form class="form" role="form">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="reverse_volume" id="reverse_volume"> Reverse volume scroll axes
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="reverse_seek" id="reverse_seek"> Reverse seek scroll axes
+                        </label>
+                    </div>
+                    <hr/>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="only_settings" id="none_only"> Disable this feature
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="only_settings" id="volume_only"> Use Volume Controls only (this will overwrite the Volume and Seek Controls settings below)
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="only_settings" id="seek_only"> Use Seek Controls only (this will overwrite the Volume and Seek Controls settings below)
+                        </label>
+                    </div>
+                    <hr/>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="default_settings" id="volume_default"> Use Volume Controls by default
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="default_settings" id="seek_default"> Use Seek Controls by default
+                        </label>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-4">
+                            <label for="volume_jump">Volume sensitivity</label>
+                            <select class="form-control" name="volume_jump" id="volume_jump">
+                                <option selected disabled>Select</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-4">
+                            <label for="jump_seek">Seek sensitivity</label>
+                            <select class="form-control" name="jump_seek" id="jump_seek">
+                                <option selected disabled>Select</option>
+                                <option value="1">1 sec</option>
+                                <option value="2">2 sec</option>
+                                <option value="3">3 sec</option>
+                                <option value="4">4 sec</option>
+                                <option value="5">5 sec</option>
+                                <option value="6">6 sec</option>
+                                <option value="7">7 sec</option>
+                                <option value="8">8 sec</option>
+                                <option value="9">9 sec</option>
+                                <option value="10">10 sec</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="enable_style" id="enable_style"> Enable whether or not this top indicator will show up.
+                                    <p><small>Note that there is another percentage indicator in the player controls bar that will show up no matter is this checkbox is checked or not</small></p>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="jump_seek">Text Color</label>
+                                    <input type="color" name="text_color" id="text_color" placeholder="#ffffff">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" name="reverse_transparent" id="reverse_transparent">
+                                        <option value="1" selected disabled>Text Opacity</option>
+                                        <option value="0">0 (transparent)</option>
+                                        <option value="0.1">10</option>
+                                        <option value="0.2">20</option>
+                                        <option value="0.3">30</option>
+                                        <option value="0.4">40</option>
+                                        <option value="0.5">50</option>
+                                        <option value="0.6">60</option>
+                                        <option value="0.7">70</option>
+                                        <option value="0.8">80</option>
+                                        <option value="0.9">90</option>
+                                        <option value="1">100 (opaque)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="jump_seek">Background Color</label>
+                                    <input type="color" name="text_color" id="background_color" placeholder="#000000">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" name="background_transparent" id="background_transparent">
+                                        <option value="1" selected disabled>Background Opacity</option>
+                                        <option value="0">0 (transparent)</option>
+                                        <option value="0.1">10</option>
+                                        <option value="0.2">20</option>
+                                        <option value="0.3">30</option>
+                                        <option value="0.4">40</option>
+                                        <option value="0.5">50</option>
+                                        <option value="0.6">60</option>
+                                        <option value="0.7">70</option>
+                                        <option value="0.8">80</option>
+                                        <option value="0.9">90</option>
+                                        <option value="1">100 (opaque)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="jump_seek">Text size (font size)</label>
+                                <select class="form-control" name="font_size" id="font_size">
+                                    <option selected disabled>Select</option>
+                                    <option value="12">12 px</option>
+                                    <option value="14">14 px</option>
+                                    <option value="16">16 px</option>
+                                    <option value="18">18 px</option>
+                                    <option value="20">20 px</option>
+                                    <option value="22">22 px</option>
+                                    <option value="24">24 px</option>
+                                    <option value="26">26 px</option>
+                                    <option value="28">28 px</option>
+                                    <option value="30">30 px</option>
+                                    <option value="32">32 px</option>
+                                    <option value="34">34 px</option>
+                                    <option value="36">36 px</option>
+                                    <option value="38">38 px</option>
+                                    <option value="40">40 px</option>
+                                    <option value="42">42 px</option>
+                                    <option value="44">44 px</option>
+                                    <option value="46">46 px</option>
+                                    <option value="48">48 px</option>
+                                    <option value="50">50 px</option>
+                                    <option value="52">52 px</option>
+                                    <option value="54">54 px</option>
+                                    <option value="56">56 px</option>
+                                    <option value="58">58 px</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="jump_seek">Padding (the distance between the inner text container and text)</label>
+                                <select class="form-control" name="padding" id="padding">
+                                    <option selected disabled>Select</option>
+                                    <option value="1">1 px</option>
+                                    <option value="2">2 px</option>
+                                    <option value="3">3 px</option>
+                                    <option value="4">4 px</option>
+                                    <option value="5">5 px</option>
+                                    <option value="6">6 px</option>
+                                    <option value="7">7 px</option>
+                                    <option value="8">8 px</option>
+                                    <option value="9">9 px</option>
+                                    <option value="10">10 px</option>
+                                    <option value="11">11 px</option>
+                                    <option value="12">12 px</option>
+                                    <option value="13">13 px</option>
+                                    <option value="14">14 px</option>
+                                    <option value="15">15 px</option>
+                                    <option value="16">16 px</option>
+                                    <option value="17">17 px</option>
+                                    <option value="18">18 px</option>
+                                    <option value="19">19 px</option>
+                                    <option value="20">20 px</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="jump_seek">Margin (the distance between the outer main container and inner text container)</label>
+                                <select class="form-control" name="margin" id="margin">
+                                    <option selected disabled>Select</option>
+                                    <option value="1">1 px</option>
+                                    <option value="2">2 px</option>
+                                    <option value="3">3 px</option>
+                                    <option value="4">4 px</option>
+                                    <option value="5">5 px</option>
+                                    <option value="6">6 px</option>
+                                    <option value="7">7 px</option>
+                                    <option value="8">8 px</option>
+                                    <option value="9">9 px</option>
+                                    <option value="10">10 px</option>
+                                    <option value="11">11 px</option>
+                                    <option value="12">12 px</option>
+                                    <option value="13">13 px</option>
+                                    <option value="14">14 px</option>
+                                    <option value="15">15 px</option>
+                                    <option value="16">16 px</option>
+                                    <option value="17">17 px</option>
+                                    <option value="18">18 px</option>
+                                    <option value="19">19 px</option>
+                                    <option value="20">20 px</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="player_container" style="min-height: 400px; background: #C5C5C5;">
+                                <div id="text_container" style="position: absolute;">45%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </form>
+                <div class="alert" style="margin: 0;">
+                    <p>* YouTube&trade; a trademark of Google Inc. Use of this trademark is subject to Google Permissions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="scripts/options.js"></script>
