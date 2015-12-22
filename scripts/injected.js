@@ -1,14 +1,63 @@
 "use strict";
 
 function volumeHud(volume) {
-	var width = volume;
-	var hud   = '<span style="margin-right:10px;display:inline-block;background: rgba(255, 255, 255, 0.75);color: transparent;width:' + width + 'px">.</span><span>' + volume + '%</span>';
+	var controls      = document.getElementsByClassName('ytp-chrome-controls');
+	var controlsWidth = controls[0].offsetWidth;
+	var width         = controlsWidth < 410 ? 0 : volume;
+
+	var hud = '<span style="margin-right:10px;display:inline-block;background: rgba(255,255,255,0.75);color: transparent;width:' + width + 'px">.</span><span>' + volume + '%</span>';
 
 	if (document.getElementById('volumeHud')) document.getElementById('volumeHud').innerHTML = hud;
+	if (document.getElementById('secondaryVolume')) document.getElementById('secondaryVolume').innerHTML = volume + '%';
 }
 
-function setSecondaryVolume(){
+function setSecondaryVolume(value) {
+	if (value.ymc_enable_style !== undefined && value.ymc_enable_style === true) {
+		var color      = value.ymc_text_color ? 'color: ' + convertHex(value.ymc_text_color, value.ymc_reverse_transparent) : false;
+		var background = value.ymc_background_color ? 'background: ' + convertHex(value.ymc_background_color, value.ymc_background_transparent) : false;
+		var fontSize   = value.ymc_font_size ? 'font-size: ' + value.ymc_font_size + 'px' : false;
+		var padding    = value.ymc_padding ? 'padding: ' + value.ymc_padding + 'px' : false;
+		var margin     = value.ymc_margin ? 'margin: ' + value.ymc_margin + 'px' : false;
 
+		var style = color + ';' + background + ';' + fontSize + ';' + padding + ';' + margin + ';';
+
+		var secHud = '<div id="text_container" style="' + style + '"><span id="secondaryVolume"></span></div>';
+		if (document.getElementById('secondVolumeHud')) document.getElementById('secondVolumeHud').innerHTML = secHud;
+	}
+}
+
+function fadeOut(el) {
+	el.style.opacity = 1;
+
+	(function fade() {
+		if ((el.style.opacity -= .1) < 0) {
+			el.style.display = "none";
+		} else {
+			requestAnimationFrame(fade);
+		}
+	})();
+}
+
+function fadeIn(el, display) {
+	el.style.opacity = 0;
+	el.style.display = display || "block";
+
+	(function fade() {
+		var val = parseFloat(el.style.opacity);
+		if (!((val += .1) > 1)) {
+			el.style.opacity = val;
+			requestAnimationFrame(fade);
+		}
+	})();
+}
+
+function convertHex(hex, opacity) {
+	hex   = hex.replace('#', '');
+	var r = parseInt(hex.substring(0, 2), 16);
+	var g = parseInt(hex.substring(2, 4), 16);
+	var b = parseInt(hex.substring(4, 6), 16);
+
+	return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
 }
 
 /**
@@ -40,6 +89,10 @@ window.addEventListener("message", function (event) {
 			}
 			if (playerId.hasOwnProperty('setVolume')) {
 				volumeHud(event.data.value);
+
+				var secHud = document.getElementById('secondVolumeHud');
+				if (secHud.style.display === "none") fadeIn(secHud);
+
 				playerId.setVolume(event.data.value);
 			}
 		}
@@ -49,6 +102,16 @@ window.addEventListener("message", function (event) {
 		tabUrl = event.data.url.toString();
 	}
 }, false);
+
+function getVolume() {
+	var playerId = document.getElementById("movie_player");
+	var volume   = null;
+	if (playerId) {
+		if (playerId.hasOwnProperty('getVolume')) volume = parseInt(playerId.getVolume());
+	}
+
+	return volume;
+}
 
 /**
  * for some reason i can't get the current seek time in the main() function
@@ -64,6 +127,24 @@ window.setInterval(function () {
 		}
 	}
 }, 1000);
+
+window.setInterval(function () {
+	var playerId = document.getElementById("movie_player");
+	if (playerId) {
+		if (playerId.hasOwnProperty('getVolume')) {
+			var vol32  = parseInt(localStorage.getItem('vol32'));
+			var volume = parseInt(playerId.getVolume());
+			var secHud = document.getElementById('secondVolumeHud');
+
+			if (vol32 !== volume) {
+				localStorage.setItem('vol32', volume);
+				if (secHud.style.display === "none") fadeIn(secHud);
+			} else {
+				if (secHud.style.display === "block") fadeOut(secHud);
+			}
+		}
+	}
+}, 2000);
 
 /**
  * get the initial volume and seek and send it to the content script
@@ -90,6 +171,10 @@ function addHud() {
 	if (document.getElementById('volumeHud') === null) {
 		document.getElementsByClassName('ytp-time-display')[0].insertAdjacentHTML('afterend', '<div class="ytp-time-display" id="volumeHud"></div>');
 	}
+
+	if (document.getElementById('secondVolumeHud') === null) {
+		document.getElementsByClassName('html5-video-container')[0].insertAdjacentHTML('afterend', '<div id="secondVolumeHud" style="display:none;position: absolute;z-index: 999;"></div>');
+	}
 }
 
 // sometimes the url changes but does not reload the page
@@ -98,7 +183,6 @@ function addHud() {
 
 function startInit() {
 	if (tabUrl !== window.location.href) {
-		console.log('startInit');
 		window.postMessage({type: 'GET_URL'}, "*");
 		main("FROM_PAGE");
 	}
