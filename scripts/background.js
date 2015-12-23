@@ -4,7 +4,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (message.type == 'GET_URL') {
 		getTabUrl();
 
-		if (localStorage['tab_url'] !== undefined)sendResponse({url: localStorage['tab_url']});
+		if (localStorage['tab_url'] !== undefined) sendResponse({url: localStorage['tab_url']});
 	}
 });
 

@@ -114,6 +114,29 @@ function setPercentColor() {
 	//chrome.storage.local.clear();
 
 	chrome.storage.local.get(null, function (result) {
+		if (isEmpty(result)) {
+			result = {
+				ymc_background_color      : "#000000",
+				ymc_background_transparent: "0.6",
+				ymc_enable_style          : false,
+				ymc_font_size             : "12",
+				ymc_jump_seek             : 5,
+				ymc_jump_volume           : 1,
+				ymc_margin                : "10",
+				ymc_none_only             : true,
+				ymc_padding               : "10",
+				ymc_reverse_seek          : false,
+				ymc_reverse_transparent   : "0.1",
+				ymc_reverse_volume        : false,
+				ymc_seek                  : false,
+				ymc_seek_only             : false,
+				ymc_volume                : true,
+				ymc_volume_only           : false
+			};
+
+			chrome.storage.local.set(result, null);
+		}
+
 		if (result.ymc_text_color !== undefined && result.ymc_background_transparent !== undefined) {
 			text_container.style.color = convertHex(result.ymc_text_color, result.ymc_background_transparent);
 		}
@@ -126,7 +149,7 @@ function setPercentColor() {
 		if (result.ymc_padding !== undefined) text_container.style.padding = result.ymc_padding + 'px';
 		if (result.ymc_margin !== undefined) text_container.style.margin = result.ymc_margin + 'px';
 
-		if(result.ymc_enable_style === undefined || result.ymc_enable_style === false) {
+		if (result.ymc_enable_style === undefined || result.ymc_enable_style === false) {
 			player_container.style.display = "none";
 		} else {
 			player_container.style.display = "block";
@@ -283,7 +306,7 @@ function initOptions() {
 
 	// Seek sensitivity
 	chrome.storage.local.get('ymc_jump_seek', function (result) {
-		if (result.jump_seek !== undefined) jump_seek.options[result.ymc_jump_seek].selected = true;
+		if (result.ymc_jump_seek !== undefined) jump_seek.options[result.ymc_jump_seek].selected = true;
 	});
 }
 
@@ -305,6 +328,17 @@ function convertHex(hex, opacity) {
 	var b = parseInt(hex.substring(4, 6), 16);
 
 	return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
+}
+
+function isEmpty(obj) {
+	if (obj == null) return true;
+	if (obj.length > 0)    return false;
+	if (obj.length === 0)  return true;
+	for (var key in obj) {
+		if (hasOwnProperty.call(obj, key)) return false;
+	}
+
+	return true;
 }
 
 document.addEventListener('DOMContentLoaded', initOptions);

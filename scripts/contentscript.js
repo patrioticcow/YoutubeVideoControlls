@@ -54,8 +54,13 @@ function init() {
 					seekState   = 1;
 				}
 			} else {
-				reverse_volume = 1;
-				volumeState    = 1;
+				if (volumeOnly === 0 && seekState === 0) {
+					volumeState = 1;
+					seekState   = 0;
+				}
+
+				if (seekState === 1) volumeState = 0;
+				if (volumeOnly === 1) seekState = 0;
 			}
 
 			if (seekState === 1) {

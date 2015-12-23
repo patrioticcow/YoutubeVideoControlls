@@ -69,6 +69,7 @@ window.addEventListener("message", function (event) {
 	if (event.source != window) return;
 
 	var playerId = document.getElementById("movie_player");
+	var secHud   = document.getElementById('secondVolumeHud');
 
 	if (event.data.type && (event.data.type == "FROM_OPTIONS")) {
 		setSecondaryVolume(event.data.value);
@@ -76,21 +77,20 @@ window.addEventListener("message", function (event) {
 
 	if (event.data.type && (event.data.type == "FROM_CONTENTSCRIPT_SEEK")) {
 		if (event.data.key === 'seek') {
-			if (playerId.hasOwnProperty('seekTo')) {
-				playerId.seekTo(event.data.value);
-			}
+			if (playerId.hasOwnProperty('seekTo')) playerId.seekTo(event.data.value);
 		}
 	}
 
 	if (event.data.type && (event.data.type == "FROM_CONTENTSCRIPT_VOLUME")) {
 		if (event.data.key === 'volume') {
-			if (playerId.hasOwnProperty('unMute')) {
-				playerId.unMute();
-			}
+			if (playerId.hasOwnProperty('unMute')) playerId.unMute();
+
 			if (playerId.hasOwnProperty('setVolume')) {
+				var time = new Date().getTime();
+				localStorage.setItem('volumeTime', time);
+				stateChange();
 				volumeHud(event.data.value);
 
-				var secHud = document.getElementById('secondVolumeHud');
 				if (secHud.style.display === "none") fadeIn(secHud);
 
 				playerId.setVolume(event.data.value);
@@ -113,6 +113,18 @@ function getVolume() {
 	return volume;
 }
 
+window.setInterval(function () {
+	stateChange();
+}, 1500);
+
+function stateChange() {
+	var time       = new Date().getTime();
+	var volumeTime = localStorage.getItem('volumeTime');
+	var secHud     = document.getElementById('secondVolumeHud');
+
+	if ((time - volumeTime) > 1500)  if (secHud.style.display === "block") fadeOut(secHud);
+}
+
 /**
  * for some reason i can't get the current seek time in the main() function
  * so i send it to the contentscript here
@@ -127,24 +139,6 @@ window.setInterval(function () {
 		}
 	}
 }, 1000);
-
-window.setInterval(function () {
-	var playerId = document.getElementById("movie_player");
-	if (playerId) {
-		if (playerId.hasOwnProperty('getVolume')) {
-			var vol32  = parseInt(localStorage.getItem('vol32'));
-			var volume = parseInt(playerId.getVolume());
-			var secHud = document.getElementById('secondVolumeHud');
-
-			if (vol32 !== volume) {
-				localStorage.setItem('vol32', volume);
-				if (secHud.style.display === "none") fadeIn(secHud);
-			} else {
-				if (secHud.style.display === "block") fadeOut(secHud);
-			}
-		}
-	}
-}, 2000);
 
 /**
  * get the initial volume and seek and send it to the content script
