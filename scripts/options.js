@@ -137,12 +137,12 @@ function setPercentColor() {
 			chrome.storage.local.set(result, null);
 		}
 
-		if (result.ymc_text_color !== undefined && result.ymc_background_transparent !== undefined) {
-			text_container.style.color = convertHex(result.ymc_text_color, result.ymc_background_transparent);
+		if (result.ymc_text_color !== undefined && result.ymc_reverse_transparent !== undefined) {
+			text_container.style.color = convertHex(result.ymc_text_color, result.ymc_reverse_transparent);
 		}
 
-		if (result.ymc_background_color !== undefined && result.ymc_reverse_transparent !== undefined) {
-			text_container.style.background = convertHex(result.ymc_background_color, result.ymc_reverse_transparent);
+		if (result.ymc_background_color !== undefined && result.ymc_background_transparent !== undefined) {
+			text_container.style.background = convertHex(result.ymc_background_color, result.ymc_background_transparent);
 		}
 
 		if (result.ymc_font_size !== undefined) text_container.style.fontSize = result.ymc_font_size + 'px';

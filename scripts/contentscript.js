@@ -70,7 +70,7 @@ function init() {
 					seek = seek - seekScale;
 				}
 
-				window.postMessage({type: "FROM_CONTENTSCRIPT_SEEK", key: 'seek', value: seek}, "*");
+				window.postMessage({type: "FROM_CONTENTSCRIPT_SEEK", key: 'seek', value: seek, delta: e.deltaY}, "*");
 			}
 
 			if (volumeState === 1) {
@@ -80,7 +80,7 @@ function init() {
 					volume = volume <= 0 ? 0 : volume - volumeScale;
 				}
 
-				window.postMessage({type: "FROM_CONTENTSCRIPT_VOLUME", key: 'volume', value: volume}, "*");
+				window.postMessage({type: "FROM_CONTENTSCRIPT_VOLUME", key: 'volume', value: volume, delta: e.deltaY}, "*");
 			}
 
 			e.preventDefault();

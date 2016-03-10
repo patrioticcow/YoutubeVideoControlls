@@ -1,5 +1,11 @@
 "use strict";
 
+function seekHud(delta) {
+	var value = delta === 1 ? '>>' : '<<';
+
+	if (document.getElementById('secondarySeek')) document.getElementById('secondarySeek').innerHTML = value;
+}
+
 function volumeHud(volume) {
 	var controls      = document.getElementsByClassName('ytp-chrome-controls');
 	var controlsWidth = controls[0].offsetWidth;
@@ -23,6 +29,9 @@ function setSecondaryVolume(value) {
 
 		var secHud = '<div id="text_container" style="' + style + '"><span id="secondaryVolume"></span></div>';
 		if (document.getElementById('secondVolumeHud')) document.getElementById('secondVolumeHud').innerHTML = secHud;
+
+		var sekHud = '<div id="text_container" style="' + style + '"><span id="secondarySeek"></span></div>';
+		if (document.getElementById('secondSeekHud')) document.getElementById('secondSeekHud').innerHTML = sekHud;
 	}
 }
 
@@ -70,6 +79,7 @@ window.addEventListener("message", function (event) {
 
 	var playerId = document.getElementById("movie_player");
 	var secHud   = document.getElementById('secondVolumeHud');
+	var sekHud   = document.getElementById('secondSeekHud');
 
 	if (event.data.type && (event.data.type == "FROM_OPTIONS")) {
 		setSecondaryVolume(event.data.value);
@@ -77,7 +87,15 @@ window.addEventListener("message", function (event) {
 
 	if (event.data.type && (event.data.type == "FROM_CONTENTSCRIPT_SEEK")) {
 		if (event.data.key === 'seek') {
-			if (playerId.hasOwnProperty('seekTo')) playerId.seekTo(event.data.value);
+			if (playerId.hasOwnProperty('seekTo')) {
+				localStorage.setItem('seekTime', new Date().getTime());
+				stateChange();
+				seekHud(event.data.delta);
+
+				if (sekHud.style.display === "none") fadeIn(sekHud);
+
+				playerId.seekTo(event.data.value);
+			}
 		}
 	}
 
@@ -86,8 +104,7 @@ window.addEventListener("message", function (event) {
 			if (playerId.hasOwnProperty('unMute')) playerId.unMute();
 
 			if (playerId.hasOwnProperty('setVolume')) {
-				var time = new Date().getTime();
-				localStorage.setItem('volumeTime', time);
+				localStorage.setItem('volumeTime', new Date().getTime());
 				stateChange();
 				volumeHud(event.data.value);
 
@@ -120,9 +137,12 @@ window.setInterval(function () {
 function stateChange() {
 	var time       = new Date().getTime();
 	var volumeTime = localStorage.getItem('volumeTime');
+	var seekTime   = localStorage.getItem('seekTime');
 	var secHud     = document.getElementById('secondVolumeHud');
+	var sekHud     = document.getElementById('secondSeekHud');
 
 	if ((time - volumeTime) > 1500)  if (secHud.style.display === "block") fadeOut(secHud);
+	if ((time - seekTime) > 1500)  if (sekHud.style.display === "block") fadeOut(sekHud);
 }
 
 /**
@@ -168,6 +188,7 @@ function addHud() {
 
 	if (document.getElementById('secondVolumeHud') === null) {
 		document.getElementsByClassName('html5-video-container')[0].insertAdjacentHTML('afterend', '<div id="secondVolumeHud" style="display:none;position: absolute;z-index: 999;"></div>');
+		document.getElementsByClassName('html5-video-container')[0].insertAdjacentHTML('afterend', '<div id="secondSeekHud" style="display:none;position: absolute;z-index: 999;"></div>');
 	}
 }
 
