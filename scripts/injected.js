@@ -28,7 +28,28 @@ function setSecondaryVolume(value) {
 		var style = color + ';' + background + ';' + fontSize + ';' + padding + ';' + margin + ';';
 
 		var secHud = '<div id="text_container" style="' + style + '"><span id="secondaryVolume"></span></div>';
-		if (document.getElementById('secondVolumeHud')) document.getElementById('secondVolumeHud').innerHTML = secHud;
+		if (document.getElementById('secondVolumeHud')) {
+			var secondVolumeHud = document.getElementById('secondVolumeHud');
+
+			if (value.ymc_position === 'top_left') {
+				secondVolumeHud.style.bottom = null;
+				secondVolumeHud.style.right  = null;
+			}
+			if (value.ymc_position === 'top_right') {
+				secondVolumeHud.style.bottom = null;
+				secondVolumeHud.style.right  = 0;
+			}
+			if (value.ymc_position === 'bottom_left') {
+				secondVolumeHud.style.bottom = '30px';
+				secondVolumeHud.style.right  = null;
+			}
+			if (value.ymc_position === 'bottom_right') {
+				secondVolumeHud.style.bottom = '30px';
+				secondVolumeHud.style.right  = 0;
+			}
+
+			secondVolumeHud.innerHTML = secHud;
+		}
 
 		var sekHud = '<div id="text_container" style="' + style + '"><span id="secondarySeek"></span></div>';
 		if (document.getElementById('secondSeekHud')) document.getElementById('secondSeekHud').innerHTML = sekHud;
@@ -75,6 +96,7 @@ function convertHex(hex, opacity) {
  */
 var tabUrl          = null;
 var fix_annotations = null;
+
 window.addEventListener("message", function (event) {
 	if (event.source != window) return;
 
@@ -84,6 +106,7 @@ window.addEventListener("message", function (event) {
 
 	if (event.data.type && (event.data.type == "FROM_OPTIONS")) {
 		fix_annotations = event.data.value.fix_annotations;
+
 		setSecondaryVolume(event.data.value);
 	}
 
