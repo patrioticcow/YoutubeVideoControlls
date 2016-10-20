@@ -79,6 +79,11 @@ function defaultSettings() {
 		setPercentColor();
 	});
 
+	chrome.storage.local.get('fix_annotations', function () {
+		var bool = document.getElementById("fix_annotations").checked === true;
+		chrome.storage.local.set({fix_annotations: bool}, null);
+	});
+
 	chrome.storage.local.get('ymc_reverse_volume', function () {
 		var bool = document.getElementById("reverse_volume").checked === true;
 		chrome.storage.local.set({ymc_reverse_volume: bool}, null);
@@ -127,6 +132,7 @@ function setPercentColor() {
 				ymc_padding               : "10",
 				ymc_reverse_seek          : false,
 				ymc_reverse_transparent   : "0.1",
+				fix_annotations           : false,
 				ymc_reverse_volume        : false,
 				ymc_seek                  : false,
 				ymc_seek_only             : false,
@@ -160,18 +166,20 @@ function setPercentColor() {
 function initOptions() {
 	setPercentColor();
 
-	var enable_style   = document.getElementById("enable_style");
-	var reverse_volume = document.getElementById("reverse_volume");
-	var reverse_seek   = document.getElementById("reverse_seek");
-	var none_only      = document.getElementById("none_only");
-	var volume_only    = document.getElementById("volume_only");
-	var seek_only      = document.getElementById("seek_only");
-	var volume_default = document.getElementById("volume_default");
-	var seek_default   = document.getElementById("seek_default");
-	var volume_jump    = document.getElementById("volume_jump");
-	var jump_seek      = document.getElementById("jump_seek");
+	var enable_style    = document.getElementById("enable_style");
+	var fix_annotations = document.getElementById("fix_annotations");
+	var reverse_volume  = document.getElementById("reverse_volume");
+	var reverse_seek    = document.getElementById("reverse_seek");
+	var none_only       = document.getElementById("none_only");
+	var volume_only     = document.getElementById("volume_only");
+	var seek_only       = document.getElementById("seek_only");
+	var volume_default  = document.getElementById("volume_default");
+	var seek_default    = document.getElementById("seek_default");
+	var volume_jump     = document.getElementById("volume_jump");
+	var jump_seek       = document.getElementById("jump_seek");
 
 	enable_style.addEventListener('click', defaultSettings);
+	fix_annotations.addEventListener('click', defaultSettings);
 	reverse_volume.addEventListener('click', defaultSettings);
 	reverse_seek.addEventListener('click', defaultSettings);
 	none_only.addEventListener('click', defaultSettings);
@@ -241,6 +249,13 @@ function initOptions() {
 		if (result.ymc_enable_style) {
 			enable_style.checked = true;
 			enable_style.checked = result.ymc_enable_style;
+		}
+	});
+
+	chrome.storage.local.get('fix_annotations', function (result) {
+		if (result.fix_annotations) {
+			fix_annotations.checked = true;
+			fix_annotations.checked = result.fix_annotations;
 		}
 	});
 

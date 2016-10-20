@@ -11,7 +11,7 @@ function volumeHud(volume) {
 	var controlsWidth = controls[0].offsetWidth;
 	var width         = controlsWidth < 410 ? 0 : volume;
 
-	var hud = '<span style="margin-right:10px;display:inline-block;background: rgba(255,255,255,0.75);color: transparent;width:' + width + 'px">.</span><span>' + volume + '%</span>';
+	var hud = '<span style="margin-right:10px;display:inline-block;background: transparent;color: transparent;width:' + width + 'px">.</span><span>' + volume + '%</span>';
 
 	if (document.getElementById('volumeHud')) document.getElementById('volumeHud').innerHTML = hud;
 	if (document.getElementById('secondaryVolume')) document.getElementById('secondaryVolume').innerHTML = volume + '%';
@@ -132,6 +132,7 @@ function getVolume() {
 
 window.setInterval(function () {
 	stateChange();
+	fixTheFuckingAnnotations();
 }, 1500);
 
 function stateChange() {
@@ -143,6 +144,27 @@ function stateChange() {
 
 	if ((time - volumeTime) > 1500)  if (secHud.style.display === "block") fadeOut(secHud);
 	if ((time - seekTime) > 1500)  if (sekHud.style.display === "block") fadeOut(sekHud);
+}
+
+function fixTheFuckingAnnotations() {
+	var nodes    = document.getElementsByClassName("video-annotations");
+	var textHtml = '';
+	for (var i = 0; i < nodes.length; i++) {
+		nodes[i].style.display = "none";
+		var node               = nodes[i].getElementsByClassName("inner-text");
+		for (var j = 0; j < node.length; j++) {
+			textHtml += '<p style="background:#323232;padding:2px;">' + node[j].outerText + '<p>';
+		}
+	}
+
+	var div = document.getElementById('new-container');
+	if (!div) {
+		div    = document.createElement('div');
+		div.id = 'new-container';
+	}
+
+	div.innerHTML = textHtml;
+	document.getElementById('watch-header').appendChild(div);
 }
 
 /**
