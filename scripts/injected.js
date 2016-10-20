@@ -73,7 +73,8 @@ function convertHex(hex, opacity) {
  * listen to events from contentscript
  * set the volume and seek
  */
-var tabUrl = null;
+var tabUrl          = null;
+var fix_annotations = null;
 window.addEventListener("message", function (event) {
 	if (event.source != window) return;
 
@@ -82,6 +83,7 @@ window.addEventListener("message", function (event) {
 	var sekHud   = document.getElementById('secondSeekHud');
 
 	if (event.data.type && (event.data.type == "FROM_OPTIONS")) {
+		fix_annotations = event.data.value.fix_annotations;
 		setSecondaryVolume(event.data.value);
 	}
 
@@ -132,7 +134,7 @@ function getVolume() {
 
 window.setInterval(function () {
 	stateChange();
-	fixTheFuckingAnnotations();
+	if (fix_annotations) fixTheFuckingAnnotations();
 }, 1500);
 
 function stateChange() {
