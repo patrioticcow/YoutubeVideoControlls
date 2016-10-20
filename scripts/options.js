@@ -18,6 +18,14 @@ function defaultSettings() {
 		setPercentColor();
 	});
 
+	chrome.storage.local.get('ymc_position', function () {
+		var el  = document.getElementById("position");
+		var val = el.options[el.selectedIndex].value;
+
+		chrome.storage.local.set({ymc_position: val}, null);
+		setPercentColor();
+	});
+
 	chrome.storage.local.get('ymc_padding', function () {
 		var el  = document.getElementById("padding");
 		var val = el.options[el.selectedIndex].value;
@@ -127,6 +135,7 @@ function setPercentColor() {
 				ymc_font_size             : "12",
 				ymc_jump_seek             : 5,
 				ymc_jump_volume           : 1,
+				ymc_position              : "top_left",
 				ymc_margin                : "10",
 				ymc_none_only             : true,
 				ymc_padding               : "10",
@@ -154,6 +163,23 @@ function setPercentColor() {
 		if (result.ymc_font_size !== undefined) text_container.style.fontSize = result.ymc_font_size + 'px';
 		if (result.ymc_padding !== undefined) text_container.style.padding = result.ymc_padding + 'px';
 		if (result.ymc_margin !== undefined) text_container.style.margin = result.ymc_margin + 'px';
+
+		if (result.ymc_position === 'top_left') {
+			text_container.style.bottom = null;
+			text_container.style.right  = null;
+		}
+		if (result.ymc_position === 'top_right') {
+			text_container.style.bottom = null;
+			text_container.style.right  = '15px';
+		}
+		if (result.ymc_position === 'bottom_left') {
+			text_container.style.bottom = 0;
+			text_container.style.right  = null;
+		}
+		if (result.ymc_position === 'bottom_right') {
+			text_container.style.right  = '15px';
+			text_container.style.bottom = 0;
+		}
 
 		if (result.ymc_enable_style === undefined || result.ymc_enable_style === false) {
 			player_container.style.display = "none";
@@ -211,6 +237,9 @@ function initOptions() {
 	var margin = document.getElementById("margin");
 	margin.addEventListener('change', defaultSettings);
 
+	var position = document.getElementById("position");
+	position.addEventListener('change', defaultSettings);
+
 	// get defaults
 	chrome.storage.local.get('ymc_font_size', function (result) {
 		if (result.ymc_font_size !== undefined) setOption(font_size, result.ymc_font_size);
@@ -218,6 +247,10 @@ function initOptions() {
 
 	chrome.storage.local.get('ymc_margin', function (result) {
 		if (result.ymc_margin !== undefined) setOption(margin, result.ymc_margin);
+	});
+
+	chrome.storage.local.get('ymc_position', function (result) {
+		if (result.ymc_position !== undefined) setOption(position, result.ymc_position);
 	});
 
 	chrome.storage.local.get('ymc_padding', function (result) {
