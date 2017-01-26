@@ -18,6 +18,14 @@ function defaultSettings() {
 		setPercentColor();
 	});
 
+	chrome.storage.local.get('ymc_thickness', function () {
+		var el  = document.getElementById("thickness");
+		var val = el.options[el.selectedIndex].value;
+
+		chrome.storage.local.set({ymc_thickness: val}, null);
+		setPercentColor();
+	});
+
 	chrome.storage.local.get('ymc_position', function () {
 		var el  = document.getElementById("position");
 		var val = el.options[el.selectedIndex].value;
@@ -137,6 +145,7 @@ function setPercentColor() {
 				ymc_jump_volume           : 1,
 				ymc_position              : "top_left",
 				ymc_margin                : "10",
+				ymc_thickness             : "400",
 				ymc_none_only             : true,
 				ymc_padding               : "10",
 				ymc_reverse_seek          : false,
@@ -163,6 +172,7 @@ function setPercentColor() {
 		if (result.ymc_font_size !== undefined) text_container.style.fontSize = result.ymc_font_size + 'px';
 		if (result.ymc_padding !== undefined) text_container.style.padding = result.ymc_padding + 'px';
 		if (result.ymc_margin !== undefined) text_container.style.margin = result.ymc_margin + 'px';
+		if (result.ymc_thickness !== undefined) text_container.style.fontWeight = result.ymc_thickness;
 
 		if (result.ymc_position === 'top_left') {
 			text_container.style.bottom = null;
@@ -237,6 +247,9 @@ function initOptions() {
 	var margin = document.getElementById("margin");
 	margin.addEventListener('change', defaultSettings);
 
+	var thickness = document.getElementById("thickness");
+	thickness.addEventListener('change', defaultSettings);
+
 	var position = document.getElementById("position");
 	position.addEventListener('change', defaultSettings);
 
@@ -247,6 +260,10 @@ function initOptions() {
 
 	chrome.storage.local.get('ymc_margin', function (result) {
 		if (result.ymc_margin !== undefined) setOption(margin, result.ymc_margin);
+	});
+
+	chrome.storage.local.get('ymc_thickness', function (result) {
+		if (result.ymc_thickness !== undefined) setOption(thickness, result.ymc_thickness);
 	});
 
 	chrome.storage.local.get('ymc_position', function (result) {

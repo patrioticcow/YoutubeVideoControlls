@@ -84,6 +84,7 @@ function init() {
 				window.postMessage({type: "FROM_CONTENTSCRIPT_VOLUME", key: 'volume', value: volume, delta: e.deltaY}, "*");
 			}
 
+
 			e.preventDefault();
 			e.stopPropagation();
 			return false;

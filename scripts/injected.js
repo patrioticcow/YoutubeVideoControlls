@@ -24,8 +24,9 @@ function setSecondaryVolume(value) {
 		var fontSize   = value.ymc_font_size ? 'font-size: ' + value.ymc_font_size + 'px' : false;
 		var padding    = value.ymc_padding ? 'padding: ' + value.ymc_padding + 'px' : false;
 		var margin     = value.ymc_margin ? 'margin: ' + value.ymc_margin + 'px' : false;
+		var fontWeight = value.ymc_thickness ? 'font-weight: ' + value.ymc_thickness : false;
 
-		var style = color + ';' + background + ';' + fontSize + ';' + padding + ';' + margin + ';';
+		var style = color + ';' + background + ';' + fontSize + ';' + padding + ';' + margin + ';' + fontWeight + ';';
 
 		var secHud = '<div id="text_container" style="' + style + '"><span id="secondaryVolume"></span></div>';
 		if (document.getElementById('secondVolumeHud')) {
@@ -98,19 +99,19 @@ var tabUrl          = null;
 var fix_annotations = null;
 
 window.addEventListener("message", function (event) {
-	if (event.source != window) return;
+	if (event.source !== window) return;
 
 	var playerId = document.getElementById("movie_player");
 	var secHud   = document.getElementById('secondVolumeHud');
 	var sekHud   = document.getElementById('secondSeekHud');
 
-	if (event.data.type && (event.data.type == "FROM_OPTIONS")) {
+	if (event.data.type && (event.data.type === "FROM_OPTIONS")) {
 		fix_annotations = event.data.value.fix_annotations;
 
 		setSecondaryVolume(event.data.value);
 	}
 
-	if (event.data.type && (event.data.type == "FROM_CONTENTSCRIPT_SEEK")) {
+	if (event.data.type && (event.data.type === "FROM_CONTENTSCRIPT_SEEK")) {
 		if (event.data.key === 'seek') {
 			if (playerId.hasOwnProperty('seekTo')) {
 				localStorage.setItem('seekTime', new Date().getTime());
@@ -124,7 +125,7 @@ window.addEventListener("message", function (event) {
 		}
 	}
 
-	if (event.data.type && (event.data.type == "FROM_CONTENTSCRIPT_VOLUME")) {
+	if (event.data.type && (event.data.type === "FROM_CONTENTSCRIPT_VOLUME")) {
 		if (event.data.key === 'volume') {
 			if (playerId.hasOwnProperty('unMute')) playerId.unMute();
 
@@ -135,12 +136,15 @@ window.addEventListener("message", function (event) {
 
 				if (secHud.style.display === "none") fadeIn(secHud);
 
+				// save current volume
+				localStorage.setItem('volume', event.data.value);
+
 				playerId.setVolume(event.data.value);
 			}
 		}
 	}
 
-	if (event.data.type && (event.data.type == "FROM_CONTENTSCRIPT_URL")) {
+	if (event.data.type && (event.data.type === "FROM_CONTENTSCRIPT_URL")) {
 		tabUrl = event.data.url.toString();
 	}
 }, false);
@@ -215,8 +219,12 @@ function main(typeName) {
 	var playerId = document.getElementById("movie_player");
 	if (playerId) {
 		if (playerId.hasOwnProperty('getVolume')) {
-			var volume      = playerId.getVolume();
+			var vol         = localStorage.getItem('volume');
+			var volume      = vol !== null && !isNaN(vol) ? vol : playerId.getVolume();
 			var currentTime = playerId.getCurrentTime();
+
+			//
+			playerId.setVolume(volume);
 
 			addHud();
 			volumeHud(volume);
