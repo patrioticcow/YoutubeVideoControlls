@@ -7,13 +7,14 @@ var seek;
 var volume;
 var seekScale;
 var volumeScale;
-var seekState      = 0;
-var volumeState    = 0;
-var reverse_volume = 1;
-var reverse_seek   = 1;
-var volumeOnly     = 0;
-var seekOnly       = 0;
-var noneOnly       = 0;
+var seekState       = 0;
+var volumeState     = 0;
+var fix_annotations = 1;
+var reverse_volume  = 1;
+var reverse_seek    = 1;
+var volumeOnly      = 0;
+var seekOnly        = 0;
+var noneOnly        = 0;
 
 function injectJs(link) {
 	$('<script type="text/javascript" src="' + link + '"/>').appendTo($('head'));
@@ -120,6 +121,10 @@ function injectScript() {
 	}
 }
 
+chrome.storage.local.get('fix_annotations', function (result) {
+	fix_annotations = result.fix_annotations ? -1 : 1;
+});
+
 chrome.storage.local.get('ymc_reverse_volume', function (result) {
 	reverse_volume = result.ymc_reverse_volume ? -1 : 1;
 });
@@ -145,7 +150,7 @@ chrome.storage.local.get('ymc_volume', function (result) {
 });
 
 chrome.storage.local.get('ymc_seek', function (result) {
-	if (result.ymc_seek === true)  seekState = 1;
+	if (result.ymc_seek === true) seekState = 1;
 });
 
 chrome.storage.local.get('ymc_jump_volume', function (result) {

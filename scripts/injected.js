@@ -11,7 +11,7 @@ function volumeHud(volume) {
 	var controlsWidth = controls[0].offsetWidth;
 	var width         = controlsWidth < 410 ? 0 : volume;
 
-	var hud = '<span style="margin-right:10px;display:inline-block;background: rgba(255,255,255,0.75);color: transparent;width:' + width + 'px">.</span><span>' + volume + '%</span>';
+	var hud = '<span style="margin-right:10px;display:inline-block;background: transparent;color: transparent;width:' + width + 'px">.</span><span>' + volume + '%</span>';
 
 	if (document.getElementById('volumeHud')) document.getElementById('volumeHud').innerHTML = hud;
 	if (document.getElementById('secondaryVolume')) document.getElementById('secondaryVolume').innerHTML = volume + '%';
@@ -28,7 +28,28 @@ function setSecondaryVolume(value) {
 		var style = color + ';' + background + ';' + fontSize + ';' + padding + ';' + margin + ';';
 
 		var secHud = '<div id="text_container" style="' + style + '"><span id="secondaryVolume"></span></div>';
-		if (document.getElementById('secondVolumeHud')) document.getElementById('secondVolumeHud').innerHTML = secHud;
+		if (document.getElementById('secondVolumeHud')) {
+			var secondVolumeHud = document.getElementById('secondVolumeHud');
+
+			if (value.ymc_position === 'top_left') {
+				secondVolumeHud.style.bottom = null;
+				secondVolumeHud.style.right  = null;
+			}
+			if (value.ymc_position === 'top_right') {
+				secondVolumeHud.style.bottom = null;
+				secondVolumeHud.style.right  = 0;
+			}
+			if (value.ymc_position === 'bottom_left') {
+				secondVolumeHud.style.bottom = '30px';
+				secondVolumeHud.style.right  = null;
+			}
+			if (value.ymc_position === 'bottom_right') {
+				secondVolumeHud.style.bottom = '30px';
+				secondVolumeHud.style.right  = 0;
+			}
+
+			secondVolumeHud.innerHTML = secHud;
+		}
 
 		var sekHud = '<div id="text_container" style="' + style + '"><span id="secondarySeek"></span></div>';
 		if (document.getElementById('secondSeekHud')) document.getElementById('secondSeekHud').innerHTML = sekHud;
@@ -73,7 +94,9 @@ function convertHex(hex, opacity) {
  * listen to events from contentscript
  * set the volume and seek
  */
-var tabUrl = null;
+var tabUrl          = null;
+var fix_annotations = null;
+
 window.addEventListener("message", function (event) {
 	if (event.source != window) return;
 
@@ -82,6 +105,8 @@ window.addEventListener("message", function (event) {
 	var sekHud   = document.getElementById('secondSeekHud');
 
 	if (event.data.type && (event.data.type == "FROM_OPTIONS")) {
+		fix_annotations = event.data.value.fix_annotations;
+
 		setSecondaryVolume(event.data.value);
 	}
 
@@ -132,6 +157,7 @@ function getVolume() {
 
 window.setInterval(function () {
 	stateChange();
+	if (fix_annotations) fixTheFuckingAnnotations();
 }, 1500);
 
 function stateChange() {
@@ -143,6 +169,27 @@ function stateChange() {
 
 	if ((time - volumeTime) > 1500)  if (secHud.style.display === "block") fadeOut(secHud);
 	if ((time - seekTime) > 1500)  if (sekHud.style.display === "block") fadeOut(sekHud);
+}
+
+function fixTheFuckingAnnotations() {
+	var nodes    = document.getElementsByClassName("video-annotations");
+	var textHtml = '';
+	for (var i = 0; i < nodes.length; i++) {
+		nodes[i].style.display = "none";
+		var node               = nodes[i].getElementsByClassName("inner-text");
+		for (var j = 0; j < node.length; j++) {
+			textHtml += '<p style="background:#323232;padding:2px;">' + node[j].outerText + '<p>';
+		}
+	}
+
+	var div = document.getElementById('new-container');
+	if (!div) {
+		div    = document.createElement('div');
+		div.id = 'new-container';
+	}
+
+	div.innerHTML = textHtml;
+	document.getElementById('watch-header').appendChild(div);
 }
 
 /**

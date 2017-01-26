@@ -18,6 +18,14 @@ function defaultSettings() {
 		setPercentColor();
 	});
 
+	chrome.storage.local.get('ymc_position', function () {
+		var el  = document.getElementById("position");
+		var val = el.options[el.selectedIndex].value;
+
+		chrome.storage.local.set({ymc_position: val}, null);
+		setPercentColor();
+	});
+
 	chrome.storage.local.get('ymc_padding', function () {
 		var el  = document.getElementById("padding");
 		var val = el.options[el.selectedIndex].value;
@@ -79,6 +87,11 @@ function defaultSettings() {
 		setPercentColor();
 	});
 
+	chrome.storage.local.get('fix_annotations', function () {
+		var bool = document.getElementById("fix_annotations").checked === true;
+		chrome.storage.local.set({fix_annotations: bool}, null);
+	});
+
 	chrome.storage.local.get('ymc_reverse_volume', function () {
 		var bool = document.getElementById("reverse_volume").checked === true;
 		chrome.storage.local.set({ymc_reverse_volume: bool}, null);
@@ -122,11 +135,13 @@ function setPercentColor() {
 				ymc_font_size             : "12",
 				ymc_jump_seek             : 5,
 				ymc_jump_volume           : 1,
+				ymc_position              : "top_left",
 				ymc_margin                : "10",
 				ymc_none_only             : true,
 				ymc_padding               : "10",
 				ymc_reverse_seek          : false,
 				ymc_reverse_transparent   : "0.1",
+				fix_annotations           : false,
 				ymc_reverse_volume        : false,
 				ymc_seek                  : false,
 				ymc_seek_only             : false,
@@ -149,6 +164,23 @@ function setPercentColor() {
 		if (result.ymc_padding !== undefined) text_container.style.padding = result.ymc_padding + 'px';
 		if (result.ymc_margin !== undefined) text_container.style.margin = result.ymc_margin + 'px';
 
+		if (result.ymc_position === 'top_left') {
+			text_container.style.bottom = null;
+			text_container.style.right  = null;
+		}
+		if (result.ymc_position === 'top_right') {
+			text_container.style.bottom = null;
+			text_container.style.right  = '15px';
+		}
+		if (result.ymc_position === 'bottom_left') {
+			text_container.style.bottom = 0;
+			text_container.style.right  = null;
+		}
+		if (result.ymc_position === 'bottom_right') {
+			text_container.style.right  = '15px';
+			text_container.style.bottom = 0;
+		}
+
 		if (result.ymc_enable_style === undefined || result.ymc_enable_style === false) {
 			player_container.style.display = "none";
 		} else {
@@ -160,18 +192,20 @@ function setPercentColor() {
 function initOptions() {
 	setPercentColor();
 
-	var enable_style   = document.getElementById("enable_style");
-	var reverse_volume = document.getElementById("reverse_volume");
-	var reverse_seek   = document.getElementById("reverse_seek");
-	var none_only      = document.getElementById("none_only");
-	var volume_only    = document.getElementById("volume_only");
-	var seek_only      = document.getElementById("seek_only");
-	var volume_default = document.getElementById("volume_default");
-	var seek_default   = document.getElementById("seek_default");
-	var volume_jump    = document.getElementById("volume_jump");
-	var jump_seek      = document.getElementById("jump_seek");
+	var enable_style    = document.getElementById("enable_style");
+	var fix_annotations = document.getElementById("fix_annotations");
+	var reverse_volume  = document.getElementById("reverse_volume");
+	var reverse_seek    = document.getElementById("reverse_seek");
+	var none_only       = document.getElementById("none_only");
+	var volume_only     = document.getElementById("volume_only");
+	var seek_only       = document.getElementById("seek_only");
+	var volume_default  = document.getElementById("volume_default");
+	var seek_default    = document.getElementById("seek_default");
+	var volume_jump     = document.getElementById("volume_jump");
+	var jump_seek       = document.getElementById("jump_seek");
 
 	enable_style.addEventListener('click', defaultSettings);
+	fix_annotations.addEventListener('click', defaultSettings);
 	reverse_volume.addEventListener('click', defaultSettings);
 	reverse_seek.addEventListener('click', defaultSettings);
 	none_only.addEventListener('click', defaultSettings);
@@ -203,6 +237,9 @@ function initOptions() {
 	var margin = document.getElementById("margin");
 	margin.addEventListener('change', defaultSettings);
 
+	var position = document.getElementById("position");
+	position.addEventListener('change', defaultSettings);
+
 	// get defaults
 	chrome.storage.local.get('ymc_font_size', function (result) {
 		if (result.ymc_font_size !== undefined) setOption(font_size, result.ymc_font_size);
@@ -210,6 +247,10 @@ function initOptions() {
 
 	chrome.storage.local.get('ymc_margin', function (result) {
 		if (result.ymc_margin !== undefined) setOption(margin, result.ymc_margin);
+	});
+
+	chrome.storage.local.get('ymc_position', function (result) {
+		if (result.ymc_position !== undefined) setOption(position, result.ymc_position);
 	});
 
 	chrome.storage.local.get('ymc_padding', function (result) {
@@ -241,6 +282,13 @@ function initOptions() {
 		if (result.ymc_enable_style) {
 			enable_style.checked = true;
 			enable_style.checked = result.ymc_enable_style;
+		}
+	});
+
+	chrome.storage.local.get('fix_annotations', function (result) {
+		if (result.fix_annotations) {
+			fix_annotations.checked = true;
+			fix_annotations.checked = result.fix_annotations;
 		}
 	});
 
