@@ -171,8 +171,8 @@ function stateChange() {
 	var secHud     = document.getElementById('secondVolumeHud');
 	var sekHud     = document.getElementById('secondSeekHud');
 
-	if ((time - volumeTime) > 1500)  if (secHud.style.display === "block") fadeOut(secHud);
-	if ((time - seekTime) > 1500)  if (sekHud.style.display === "block") fadeOut(sekHud);
+	if ((time - volumeTime) > 1500) if (secHud.style.display === "block") fadeOut(secHud);
+	if ((time - seekTime) > 1500) if (sekHud.style.display === "block") fadeOut(sekHud);
 }
 
 function fixTheFuckingAnnotations() {
@@ -193,7 +193,13 @@ function fixTheFuckingAnnotations() {
 	}
 
 	div.innerHTML = textHtml;
-	document.getElementById('watch-header').appendChild(div);
+	if (document.getElementById('watch-header')) {
+		document.getElementById('watch-header').appendChild(div);
+	} else if (document.getElementById('player-container')) {
+		// new design
+		document.getElementById('player-container').appendChild(div);
+	}
+
 }
 
 /**

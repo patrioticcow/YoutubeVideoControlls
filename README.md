@@ -1,11 +1,8 @@
 With Mouse Controls for YouTube™ you can change the volume and seek with your mouse.
 
 === NEW RELEASE ===
-v. 1.1.0
--- attempt to fix loosing volume value after tab restart
--- new option "Font Thickness"
--- misc fixes
-
+v. 1.1.1
+-- fix for new UI youtube.com/new
 
 === HOW TO USE ===
   *** !!!IMPORTANT!!! Make sure to go to the settings page and setup the extension first thing.
@@ -20,6 +17,11 @@ I'm not sure why anyone would leave a bad review or anything less then 5 stars. 
 
 
 === PAST RELEASES ===
+v. 1.1.0
+-- attempt to fix loosing volume value after tab restart
+-- new option "Font Thickness"
+-- misc fixes
+
 v. 1.0.9
 -- added ability to position the volume hud on all four corners of the video
 

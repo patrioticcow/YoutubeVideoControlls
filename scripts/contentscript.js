@@ -16,6 +16,7 @@ var volumeOnly      = 0;
 var seekOnly        = 0;
 var noneOnly        = 0;
 
+
 function injectJs(link) {
 	$('<script type="text/javascript" src="' + link + '"/>').appendTo($('head'));
 }
@@ -27,7 +28,7 @@ function setVars(event) {
 
 function init() {
 	var playerId   = document.getElementById("movie_player");
-	var $playerApi = $('#player-api');
+	var $playerApi = $('video'); //#player-api
 	var $playerId  = $(playerId);
 	var pid        = $playerApi.length ? $playerApi : $playerId;
 
@@ -84,7 +85,6 @@ function init() {
 				window.postMessage({type: "FROM_CONTENTSCRIPT_VOLUME", key: 'volume', value: volume, delta: e.deltaY}, "*");
 			}
 
-
 			e.preventDefault();
 			e.stopPropagation();
 			return false;
@@ -114,10 +114,27 @@ function init() {
  * inject the script
  */
 var interval = setInterval(injectScript, 1000);
+
 function injectScript() {
 	var playerIdd = document.getElementById("movie_player");
 	if (playerIdd) {
 		injectJs(chrome.extension.getURL('scripts/injected.js'));
+
+		//include jquery
+		(function () {
+			function l(u, i) {
+				var d = document;
+				if (!d.getElementById(i)) {
+					var s = d.createElement('script');
+					s.src = u;
+					s.id  = i;
+					d.body.appendChild(s);
+				}
+			}
+
+			l('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', 'jquery')
+		})();
+
 		clearInterval(interval);
 	}
 }
