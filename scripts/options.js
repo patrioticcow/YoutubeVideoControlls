@@ -105,6 +105,16 @@ function defaultSettings() {
 		chrome.storage.local.set({ymc_reverse_volume: bool}, null);
 	});
 
+	chrome.storage.local.get('ymc_log_volume', function () {
+		var bool = document.getElementById("log_volume").checked === true;
+		chrome.storage.local.set({ymc_log_volume: bool}, null);
+	});
+
+	chrome.storage.local.get('ymc_wait_for_volume', function () {
+		var bool = document.getElementById("wait_for_volume").checked === true;
+		chrome.storage.local.set({ymc_wait_for_volume: bool}, null);
+	});
+
 	chrome.storage.local.get('ymc_reverse_seek', function () {
 		var bool = document.getElementById("reverse_seek").checked === true;
 		chrome.storage.local.set({ymc_reverse_seek: bool}, null);
@@ -152,6 +162,8 @@ function setPercentColor() {
 				ymc_reverse_transparent   : "0.1",
 				fix_annotations           : false,
 				ymc_reverse_volume        : false,
+				ymc_log_volume            : false,
+				ymc_wait_for_volume       : false,
 				ymc_seek                  : false,
 				ymc_seek_only             : false,
 				ymc_volume                : true,
@@ -204,6 +216,8 @@ function initOptions() {
 
 	var enable_style    = document.getElementById("enable_style");
 	var fix_annotations = document.getElementById("fix_annotations");
+	var log_volume      = document.getElementById("log_volume");
+	var wait_for_volume      = document.getElementById("wait_for_volume");
 	var reverse_volume  = document.getElementById("reverse_volume");
 	var reverse_seek    = document.getElementById("reverse_seek");
 	var none_only       = document.getElementById("none_only");
@@ -216,6 +230,8 @@ function initOptions() {
 
 	enable_style.addEventListener('click', defaultSettings);
 	fix_annotations.addEventListener('click', defaultSettings);
+	log_volume.addEventListener('click', defaultSettings);
+	wait_for_volume.addEventListener('click', defaultSettings);
 	reverse_volume.addEventListener('click', defaultSettings);
 	reverse_seek.addEventListener('click', defaultSettings);
 	none_only.addEventListener('click', defaultSettings);
@@ -316,6 +332,20 @@ function initOptions() {
 		}
 	});
 
+	chrome.storage.local.get('ymc_log_volume', function (result) {
+		if (result.ymc_log_volume) {
+			log_volume.checked = true;
+			log_volume.checked = result.ymc_log_volume;
+		}
+	});
+
+	chrome.storage.local.get('ymc_wait_for_volume', function (result) {
+		if (result.ymc_wait_for_volume) {
+			wait_for_volume.checked = true;
+			wait_for_volume.checked = result.ymc_wait_for_volume;
+		}
+	});
+
 	// Use Reverse Volume Controls only
 	chrome.storage.local.get('ymc_reverse_seek', function (result) {
 		if (result.ymc_reverse_seek) {
@@ -396,9 +426,9 @@ function convertHex(hex, opacity) {
 }
 
 function isEmpty(obj) {
-	if (obj == null) return true;
-	if (obj.length > 0)    return false;
-	if (obj.length === 0)  return true;
+	if (obj === null) return true;
+	if (obj.length > 0) return false;
+	if (obj.length === 0) return true;
 	for (var key in obj) {
 		if (hasOwnProperty.call(obj, key)) return false;
 	}

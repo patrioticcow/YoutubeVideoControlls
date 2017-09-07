@@ -29,31 +29,40 @@ function setSecondaryVolume(value) {
 		var style = color + ';' + background + ';' + fontSize + ';' + padding + ';' + margin + ';' + fontWeight + ';';
 
 		var secHud = '<div id="text_container" style="' + style + '"><span id="secondaryVolume"></span></div>';
+
 		if (document.getElementById('secondVolumeHud')) {
 			var secondVolumeHud = document.getElementById('secondVolumeHud');
-
-			if (value.ymc_position === 'top_left') {
-				secondVolumeHud.style.bottom = null;
-				secondVolumeHud.style.right  = null;
-			}
-			if (value.ymc_position === 'top_right') {
-				secondVolumeHud.style.bottom = null;
-				secondVolumeHud.style.right  = 0;
-			}
-			if (value.ymc_position === 'bottom_left') {
-				secondVolumeHud.style.bottom = '30px';
-				secondVolumeHud.style.right  = null;
-			}
-			if (value.ymc_position === 'bottom_right') {
-				secondVolumeHud.style.bottom = '30px';
-				secondVolumeHud.style.right  = 0;
-			}
-
+			setHudPosition(value, secondVolumeHud);
 			secondVolumeHud.innerHTML = secHud;
+		}
+
+		if (document.getElementById('secondSeekHud')) {
+			var secondSeekHud = document.getElementById('secondSeekHud');
+			setHudPosition(value, secondSeekHud);
+			secondSeekHud.innerHTML = secHud;
 		}
 
 		var sekHud = '<div id="text_container" style="' + style + '"><span id="secondarySeek"></span></div>';
 		if (document.getElementById('secondSeekHud')) document.getElementById('secondSeekHud').innerHTML = sekHud;
+	}
+}
+
+function setHudPosition(value, el) {
+	if (value.ymc_position === 'top_left') {
+		el.style.bottom = null;
+		el.style.right  = null;
+	}
+	if (value.ymc_position === 'top_right') {
+		el.style.bottom = null;
+		el.style.right  = 0;
+	}
+	if (value.ymc_position === 'bottom_left') {
+		el.style.bottom = '40px';
+		el.style.right  = null;
+	}
+	if (value.ymc_position === 'bottom_right') {
+		el.style.bottom = '40px';
+		el.style.right  = 0;
 	}
 }
 
@@ -171,8 +180,8 @@ function stateChange() {
 	var secHud     = document.getElementById('secondVolumeHud');
 	var sekHud     = document.getElementById('secondSeekHud');
 
-	if ((time - volumeTime) > 1500) if (secHud.style.display === "block") fadeOut(secHud);
-	if ((time - seekTime) > 1500) if (sekHud.style.display === "block") fadeOut(sekHud);
+	if ((time - volumeTime) > 1500) if (secHud && secHud.style.display === "block") fadeOut(secHud);
+	if ((time - seekTime) > 1500) if (secHud && sekHud.style.display === "block") fadeOut(sekHud);
 }
 
 function fixTheFuckingAnnotations() {
@@ -225,6 +234,9 @@ function main(typeName) {
 	var playerId = document.getElementById("movie_player");
 	if (playerId) {
 		if (playerId.hasOwnProperty('getVolume')) {
+			// enable audio
+			window.postMessage({type: 'UNMUTE_TAB'}, "*");
+
 			var vol         = localStorage.getItem('volume');
 			var volume      = vol !== null && !isNaN(vol) ? vol : playerId.getVolume();
 			var currentTime = playerId.getCurrentTime();
@@ -255,7 +267,7 @@ function addHud() {
 
 // sometimes the url changes but does not reload the page
 // and i have to resend the player stats
-//setInterval(startInit, 5000);
+// setInterval(startInit, 5000);
 
 function startInit() {
 	if (tabUrl !== window.location.href) {

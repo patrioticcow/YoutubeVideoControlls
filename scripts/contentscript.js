@@ -4,6 +4,7 @@
  * init some vars
  */
 var seek;
+var vol;
 var volume;
 var seekScale;
 var volumeScale;
@@ -15,14 +16,14 @@ var reverse_seek    = 1;
 var volumeOnly      = 0;
 var seekOnly        = 0;
 var noneOnly        = 0;
-
+var log_volume      = 0;
 
 function injectJs(link) {
 	$('<script type="text/javascript" src="' + link + '"/>').appendTo($('head'));
 }
 
 function setVars(event) {
-	if (event.data.volume !== 'not_needed') volume = parseFloat(event.data.volume);
+	if (event.data.volume !== 'not_needed') vol = parseFloat(event.data.volume);
 	seek = parseFloat(event.data.currentTime);
 }
 
@@ -43,6 +44,7 @@ function init() {
 		pid.on('mousewheel', function (e) {
 			reverse_volume = reverse_volume === undefined ? 1 : reverse_volume;
 			reverse_seek   = reverse_seek === undefined ? 1 : reverse_seek;
+			log_volume     = log_volume === undefined ? 1 : log_volume;
 
 			// if volume only option don't enable seek and viceversa
 			if (noneOnly === 0) {
@@ -77,9 +79,16 @@ function init() {
 
 			if (volumeState === 1) {
 				if (e.deltaY === reverse_volume) {
-					volume = volume >= 100 ? 100 : volume + volumeScale;
+					vol = vol >= 100 ? 100 : vol + volumeScale;
 				} else {
-					volume = volume <= 0 ? 0 : volume - volumeScale;
+					vol = vol <= 0 ? 0 : vol - volumeScale;
+				}
+
+				if (log_volume === 1) {
+					volume = logslider(vol);
+					//volume = logToLinear(volume);
+				} else {
+					volume = Math.round(vol);
 				}
 
 				window.postMessage({type: "FROM_CONTENTSCRIPT_VOLUME", key: 'volume', value: volume, delta: e.deltaY}, "*");
@@ -108,6 +117,30 @@ function init() {
 
 		return true;
 	});
+}
+
+function logToLinear(position) {
+	var num = Math.log(position) / (Math.log(100) / 100);
+
+	num = Math.round(num * 10) / 10;
+
+	if (num < 0) return 0;
+	if (num > 100) return 100;
+	if (isNaN(num)) return position;
+
+	return num;
+}
+
+function logslider(position) {
+	var num = Math.exp((Math.log(100) / 100) * position);
+
+	num = Math.round(num * 10) / 10;
+
+	if (num < 0) return 0;
+	if (num > 100) return 100;
+	if (isNaN(num)) return position;
+
+	return num;
 }
 
 /**
@@ -147,6 +180,10 @@ chrome.storage.local.get('ymc_reverse_volume', function (result) {
 	reverse_volume = result.ymc_reverse_volume ? -1 : 1;
 });
 
+chrome.storage.local.get('ymc_log_volume', function (result) {
+	log_volume = result.ymc_log_volume ? 1 : 0;
+});
+
 chrome.storage.local.get('ymc_reverse_seek', function (result) {
 	reverse_seek = result.ymc_reverse_seek ? -1 : 1;
 });
@@ -183,18 +220,33 @@ chrome.storage.local.get('ymc_jump_seek', function (result) {
  * listen for events form the injected script
  */
 window.addEventListener("message", function (event) {
-	if (event.source != window) return;
+	if (event.source !== window) return;
 
-	if (event.data.type && (event.data.type == "FROM_PAGE")) {
+	if (event.data.type && (event.data.type === "FROM_PAGE")) {
 		setVars(event);
 		init();
 	}
 
-	if (event.data.type && (event.data.type == "SEEK_FROM_PAGE")) setVars(event);
+	if (event.data.type && (event.data.type === "SEEK_FROM_PAGE")) setVars(event);
 
-	if (event.data.type && (event.data.type == "GET_URL")) {
+	if (event.data.type && (event.data.type === "GET_URL")) {
 		chrome.runtime.sendMessage({type: "GET_URL"}, function (response) {
 			window.postMessage({type: "FROM_CONTENTSCRIPT_URL", url: response.url}, "*");
 		});
 	}
+
+	if (event.data.type && (event.data.type === "UNMUTE_TAB")) {
+		chrome.runtime.sendMessage({type: "UNMUTE_TAB"}, function (response) {
+
+		});
+	}
 }, false);
+
+// mute tab per settings
+chrome.storage.local.get('ymc_wait_for_volume', function (result) {
+	if (result.ymc_wait_for_volume === true) {
+		chrome.runtime.sendMessage({type: "MUTE_TAB"}, function (response) {
+			// muted
+		});
+	}
+});
