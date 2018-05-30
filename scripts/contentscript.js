@@ -97,9 +97,9 @@ function scrollSeek(e) {
     }
 
     if (seekState === 1) {
-        if (e.deltaY === reverse_seek) {
+        if (e.deltaY >= reverse_seek) {
             seek = seek + seekScale;
-        } else {
+        } else if(e.deltaY <= -1) {
             seek = seek - seekScale;
         }
 
