@@ -6,6 +6,8 @@ With Mouse Controls for YouTube™ you can change the volume and seek with your 
   * Hover over the player and use your mouse scroll to change the volume.
   * To seek click the middle button once, then scroll. this will move your seek forward or backward in time.
 
+patreon: https://www.patreon.com/patrioticcow
+
 === NEW RELEASE ===
 v. 1.2.0
  - Stable Logarithmic volume
