@@ -1,17 +1,15 @@
 With Mouse Controls for YouTube™ you can change the volume and seek with your mouse.
 
-=== NEW RELEASE ===
-v. 1.1.2
- - various bug fixes per user feedback. thanks all
- - Wait for Volume (experimental). Mute tab by default and unmute when ready (bacause of a small lag beteen the youtube player and when the extension loads)
- - Logarithmic volume (experimental). See the settings page.
-
-
 === HOW TO USE ===
   * !!!IMPORTANT!!! Make sure to go to the settings page and setup the extension first thing.
   * After installing the app, refresh your YouTube™ page. The controls should be active now. 
   * Hover over the player and use your mouse scroll to change the volume.
   * To seek click the middle button once, then scroll. this will move your seek forward or backward in time.
+
+=== NEW RELEASE ===
+v. 1.2.0
+ - Stable Logarithmic volume
+ - Fix fast scrolling volume bug
 
 I created this extension because I personally needed this feature. Since it's initial creation it got a lot better and got many features based on user requests. 
 If you feel like is not working for you, leave a comment and ill try to fix the issue.
@@ -19,6 +17,11 @@ If you feel like is not working for you, leave a comment and ill try to fix the 
 I'm not sure why anyone would leave a bad review or anything less then 5 stars. This app is FREE and I made it and maintain it in my free time. If this app is not for you just uninstall it.
 
 === PAST RELEASES ===
+v. 1.1.2
+ - various bug fixes per user feedback. thanks all
+ - Wait for Volume (experimental). Mute tab by default and unmute when ready (bacause of a small lag beteen the youtube player and when the extension loads)
+ - Logarithmic volume (experimental). See the settings page.
+
 v. 1.1.1
 - fix for new UI youtube.com/new
 
