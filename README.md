@@ -9,8 +9,8 @@ With Mouse Controls for YouTube™ you can change the volume and seek with your 
 patreon: https://www.patreon.com/patrioticcow
 
 === NEW RELEASE ===
-v. 1.2.1
- - Fuck, I forgot about the Seek fix
+v. 1.2.2
+ - Bug fix
 
 I created this extension because I personally needed this feature. Since it's initial creation it got a lot better and got many features based on user requests. 
 If you feel like is not working for you, leave a comment and ill try to fix the issue.
@@ -18,6 +18,9 @@ If you feel like is not working for you, leave a comment and ill try to fix the 
 I'm not sure why anyone would leave a bad review or anything less then 5 stars. This app is FREE and I made it and maintain it in my free time. If this app is not for you just uninstall it.
 
 === PAST RELEASES ===
+v. 1.2.1
+ - Fuck, I forgot about the Seek fix
+ 
 v. 1.2.0
  - Stable Logarithmic volume
  - Fix fast scrolling volume bug

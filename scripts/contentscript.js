@@ -96,25 +96,45 @@ function scrollSeek(e) {
         if (volumeOnly === 1) seekState = 0;
     }
 
+    console.log(reverse_seek, '+++');
+
     if (seekState === 1) {
-        if (e.deltaY >= reverse_seek) {
-            seek = seek + seekScale;
-        } else if(e.deltaY <= -1) {
-            seek = seek - seekScale;
+        if (reverse_seek === 1) {
+            if (e.deltaY >= 1) {
+                seek = seek + seekScale;
+            } else if (e.deltaY <= -1) {
+                seek = seek - seekScale;
+            }
+        } else {
+            if (e.deltaY >= 1) {
+                seek = seek - seekScale;
+            } else if (e.deltaY <= -1) {
+                seek = seek + seekScale;
+            }
         }
+
+        console.log(e.deltaX, e.deltaY, seek, '---');
 
         window.postMessage({type: "FROM_CONTENTSCRIPT_SEEK", key: 'seek', value: seek, delta: e.deltaY}, "*");
     }
 
-    if (volumeState === 1) {
-        if (e.deltaY >= reverse_volume) {
-            vol    = vol >= 100 ? 100 : vol + volumeScale;
-            volume = logVolume(vol);
 
-        } else if (e.deltaY <= -1) {
-            vol    = vol <= 0 ? 0 : vol - volumeScale;
-            volume = logVolume(vol);
+    if (volumeState === 1) {
+        if (reverse_volume === 1) {
+            if (e.deltaY >= 1) {
+                vol = vol >= 100 ? 100 : vol + volumeScale;
+            } else if (e.deltaY <= -1) {
+                vol = vol <= 0 ? 0 : vol - volumeScale;
+            }
+        } else {
+            if (e.deltaY >= 1) {
+                vol = vol <= 0 ? 0 : vol - volumeScale;
+            } else if (e.deltaY <= -1) {
+                vol = vol >= 100 ? 100 : vol + volumeScale;
+            }
         }
+
+        volume = logVolume(vol);
 
         //console.log(e.deltaX, e.deltaY, vol, volume, '---');
 
