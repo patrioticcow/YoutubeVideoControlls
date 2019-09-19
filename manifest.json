@@ -17,14 +17,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://gaming.youtube.com/*",
-        "http://gaming.youtube.com/*",
-        "https://tv.youtube.com/*",
-        "http://tv.youtube.com/*",
-        "https://music.youtube.com/*",
-        "http://music.youtube.com/*",
-        "https://www.youtube.com/*",
-        "http://www.youtube.com/*"
+        "https://*/*",
+        "http://*/*"
       ],
       "css": [
         "styles/main.css"
@@ -45,14 +39,6 @@
   },
   "permissions": [
     "tabs",
-    "storage",
-    "https://gaming.youtube.com/*",
-    "http://gaming.youtube.com/*",
-    "https://tv.youtube.com/*",
-    "http://tv.youtube.com/*",
-    "https://music.youtube.com/*",
-    "http://music.youtube.com/*",
-    "https://www.youtube.com/*",
-    "http://www.youtube.com/*"
+    "storage"
   ]
 }

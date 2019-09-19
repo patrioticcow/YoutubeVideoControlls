@@ -6,14 +6,10 @@ With Mouse Controls for YouTube™ you can change the volume and seek with your 
   * Hover over the player and use your mouse scroll to change the volume.
   * To seek click the middle button once, then scroll. this will move your seek forward or backward in time.
 
-patreon: https://www.patreon.com/patrioticcow
-
 === NEW RELEASE ===
 
-v. 1.2.3
- - Added Youtube Music functionality
+v. 1.2.4
  - Bug fixes
- - Todo: build the HUD
 
 I created this extension because I personally needed this feature. Since it's initial creation it got a lot better and got many features based on user requests. 
 If you feel like is not working for you, leave a comment and ill try to fix the issue.
@@ -22,6 +18,11 @@ I'm not sure why anyone would leave a bad review or anything less then 5 stars. 
 
 === PAST RELEASES ===
 
+v. 1.2.3
+ - Added Youtube Music functionality
+ - Bug fixes
+ - Todo: build the HUD
+ 
 v. 1.2.2
  - Bug fix
  
