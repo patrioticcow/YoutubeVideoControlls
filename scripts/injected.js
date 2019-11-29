@@ -258,7 +258,7 @@ function main (typeName) {
     }
   }
 
-  dom()
+  // dom()
 }
 
 main('FROM_PAGE')

@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="56bcfccc-82e9-48c8-a7cd-6971ed634eae" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/options.html" beforeDir="false" afterPath="$PROJECT_DIR$/options.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/contentscript.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/contentscript.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/injected.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/injected.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,18 +65,6 @@
       <recent name="G:\Work\YoutubeVideoControlls\scripts" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager">
     <configuration default="true" type="js.build_tools.gulp">
       <node-interpreter>project</node-interpreter>
@@ -90,6 +75,18 @@
       <envs />
       <method v="2" />
     </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -108,6 +105,10 @@
       <workItem from="1527778653603" duration="801000" />
       <workItem from="1537282209939" duration="4030000" />
       <workItem from="1568865043289" duration="3479000" />
+      <workItem from="1571602940753" duration="82000" />
+      <workItem from="1573427185545" duration="25000" />
+      <workItem from="1573427435057" duration="9000" />
+      <workItem from="1574990030360" duration="167000" />
     </task>
     <task id="LOCAL-00001" summary="updates">
       <created>1476982197137</created>
@@ -150,10 +151,13 @@
     <option name="LAST_COMMIT_MESSAGE" value="updates" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="4508" y="1208" width="1224" height="786" key="find.popup" />
-    <state x="4508" y="1208" width="1224" height="786" key="find.popup/3840.2160/2560.1080/2560.1080" />
-    <state x="4783" y="1303" width="672" height="680" key="search.everywhere.popup" />
-    <state x="4783" y="1303" width="672" height="680" key="search.everywhere.popup/3840.2160/2560.1080/2560.1080" />
+    <state x="4508" y="1208" width="1224" height="786" key="find.popup" timestamp="1573427192890">
+      <screen x="3840" y="967" width="2560" height="1050" />
+    </state>
+    <state x="4508" y="1208" width="1224" height="786" key="find.popup/0.0.2560.1409/6400.967.2560.1050/3840.967.2560.1050@3840.967.2560.1050" timestamp="1573427192890" />
+    <state x="4508" y="1208" width="1224" height="786" key="find.popup/3840.2160/2560.1080/2560.1080" timestamp="1573427187816" />
+    <state x="4783" y="1303" width="672" height="680" key="search.everywhere.popup" timestamp="1573427187816" />
+    <state x="4783" y="1303" width="672" height="680" key="search.everywhere.popup/3840.2160/2560.1080/2560.1080" timestamp="1573427187816" />
   </component>
   <component name="atlassian-ide-plugin-workspace-issues">
     <option name="view">
